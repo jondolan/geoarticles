@@ -12,7 +12,7 @@ function new_query(event) {
         var res = ""
         for (var key in data) {
             // console.log(data[key].url);
-            res += "<a href='/article?id=" + data[key]._id + "'>" + data[key].title + "</a><br />";
+            res += "<a target='_blank' href='/article?id=" + data[key]._id + "'>" + data[key].title + "</a><br />";
         }
         $("#result").html(res);
     });
