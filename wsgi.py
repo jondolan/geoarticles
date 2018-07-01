@@ -10,7 +10,7 @@ articles_db = client.articles
 syriahr = articles_db.syriahr
 
 @application.route("/")
-def render():
+def homepage():
     return render_template('homepage.html')
 
 @application.route('/search', methods = ['POST'])
@@ -27,6 +27,16 @@ def search():
         # print(rtn)
         # print(jsonify(rtn))
         return jsonify(rtn)
+
+@application.route('/article', methods = ['GET'])
+def display():
+    _id = request.args.get('id')
+    print("ID:")
+    print(_id)
+    result = syriahr.find_one({"_id": _id})
+    print(result)
+    return render_template('display_article.html', title=result['title'], date=result['date'], body=result['body'], url=result['url'])
+
 
 if __name__ == "__main__":
     application.run()
