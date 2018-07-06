@@ -2,6 +2,7 @@ import os
 #print(os.environ['MONGODB_CONNECTION_STRING'])
 from flask import Flask, render_template, request, jsonify
 from pymongo import MongoClient
+import pprint
 
 application = Flask(__name__)
 client = MongoClient(os.environ['MONGODB_CONNECTION_STRING'])
@@ -31,11 +32,12 @@ def search():
 @application.route('/article', methods = ['GET'])
 def display():
     _id = request.args.get('id')
+    _query = request.args.get('query')
     print("ID:")
     print(_id)
     result = syriahr.find_one({"_id": _id})
     print(result)
-    return render_template('display_article.html', title=result['title'], date=result['date'], body=result['body'], url=result['url'])
+    return render_template('display_article.html', title=result['title'], date=result['date'], body=result['body'], url=result['url'], query=_query)
 
 
 if __name__ == "__main__":

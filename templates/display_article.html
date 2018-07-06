@@ -7,11 +7,67 @@
   </head>
 
   <script type="text/javascript" src="/static/js/jquery-3.3.1.min.js"></script>
+  <script type="text/javascript">
+  $(document).ready(function() {
+
+    $("#bodytext").text($("#bodytext").text().trim())
+
+    var urlParams = new URLSearchParams(window.location.search);
+    var searchFor = urlParams.get('query').toLowerCase();
+    var searchIn = $("#bodytext").html().toLowerCase();
+
+    var insert1 = "<span style='font-weight:bold'>";
+    var insert2 = "</span>";
+    var index_offset = insert1.length + insert2.length;
+    var new_html = $("#bodytext").html();
+
+    var startIndex = 0, index, matches = 0;
+
+
+    while ((index = searchIn.indexOf(searchFor, startIndex)) > -1) {
+      console.log(index);
+        new_html = [new_html.slice(0, index+(matches*index_offset)),
+                    insert1,
+                    new_html.slice(index+(matches*index_offset), index+(matches*index_offset)+searchFor.length),
+                    insert2,
+                    new_html.slice(index+(matches*index_offset)+searchFor.length)].join('');
+        matches++;
+        startIndex = index + searchFor.length;
+    }
+    $("#bodytext").html(new_html);
+  });
+
+
+
+    
+    
+  //   var indices = getIndicesOf(query, $("#bodytext").text(), false);
+  //   console.log(indices);
+  //   var new_html = $("#bodytext").html();
+  //   var insert1 = "<span style='font-weight:bold'>";
+  //   var insert2 = "</span>";
+  //   var start_length = indices.length;
+  //   for (var i = 0; i < start_length; i++) {
+  //     var position = indices[i];
+  //     new_html = [new_html.slice(0, position),
+  //                 insert1,
+  //                 new_html.slice(position, position+query.length),
+  //                 insert2,
+  //                 new_html.slice(position+query.length)].join('');
+  //     indices[i+1] += insert1.length + insert2.length;
+  //   }
+  //   $("#bodytext").html(new_html);
+  // });
+  // function getIndicesOf(searchStr, str, caseSensitive) {
+    
+  //   return indices;
+
+  </script>
 
   <body>
     <h2>{{ title }}</h2>
     <a href = {{ url }}>Link to article source</a>
     <h4>{{ date }}</h4>
-    <p>{{ body }}</p>
+    <p id="bodytext">{{ body }}</p>
   </body>
 </html>

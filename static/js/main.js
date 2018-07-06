@@ -8,11 +8,11 @@ function new_query(event) {
     // console.log($("#search-box").val());
     
     $.post("/search", { query: $("#search-box").val() }, function(data) {
-        console.log(data);
+        // console.log(data);
         var res = ""
         for (var key in data) {
             // console.log(data[key].url);
-            res += "<a target='_blank' href='/article?id=" + data[key]._id + "'>" + data[key].title + "</a><br />";
+            res += "<a target='_blank' href='/article?id=" + data[key]._id + "&query=" + $("#search-box").val() + "'>" + data[key].title + "</a><br />";
         }
         $("#result").html(res);
     });
